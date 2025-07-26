@@ -10,8 +10,10 @@ const port = 3000;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+app.set('view engine', 'ejs');
+
 const db = new pg.Client({
-  host: "localhost",
+    host: "localhost",
 	user: "postgres",
 	database: "bookNotes",
 	password: "0kbIKir6",
