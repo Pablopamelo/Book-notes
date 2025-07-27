@@ -1,0 +1,45 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+#Container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#mainCont{
+    flex: 27;
+    font-size: 1.5rem;
+}
+
+#floatingCont{
+    height: calc(100vh - 12rem) ;
+    margin: 2rem;
+    display: flex;
+}
+
+#filtersCont{
+    flex: 4;
+    border-right: 1px solid gray;
+}
+
+#contentCont{
+    flex: 15;
+}
+
+#addBook > input{
+    width: calc(100% - 2rem);
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    box-sizing: border-box;
+}
+
+#books{
+    height: calc(100% - 5rem);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}

@@ -1,62 +1,63 @@
 <%- include("partials/header.ejs") %>
-<main>
-    <div id = "mainCont">
+        <div id = "mainCont">
+            <main>
 
-        <div id = "floatingCont">
+                <div id = "floatingCont">
 
-            <div id = "filtersCont">
+                    <div id = "filtersCont">
 
-                <div id = "filters">
+                        <div id = "filters">
 
-                    <ul id = "filterOptions">
-                        <li class = "filter"></li>
-                        <li class = "filter"></li>
-                        <li class = "filter"></li>
-                    </ul>
+                            <ul id = "filterOptions">
+                                <li class = "filter"></li>
+                                <li class = "filter"></li>
+                                <li class = "filter"></li>
+                            </ul>
 
-                </div>
+                        </div>
 
-            </div>
-
-            <div id = "contentCont">
-
-                <form action = "/add" method = "POST">
-                    <div id = "addBook">
-                        <input type = "submit" value = "Add Book">
                     </div>
-                </form>
-                
-                <div id = "books">
-                    <% if(locals.books){ %>
-                        <% books.forEach((book) => { %>
-                            <div class = "book" id = "book<%= book.id %>">
 
-                                <div id = "top">
-                                    <div onclick = "location.href = '/book/<%= book.id %>'" class = "cover" id = "cover<%= book.id %>">
-                                        <img src = "<%= book.url %>">
-                                    </div>
-                                </div>
+                    <div id = "contentCont">
 
-                                <div id = "bottom">
-                                    <div id = "rating">
-                                        <% for(star of book.rating){ %>
-                                            <i>star</i>
-                                        <% } %>
-                                    </div>
-
-                                    <form>
-                                        <input class = "edit" type = "submit" formaction = "/edit<%= book.id %>">
-
-                                        <input class = "delete" type = "submit" formaction = "/delete<%= book.id %>">
-                                    </form>
-                                </div>
+                        <form action = "/add" method = "POST">
+                            <div id = "addBook">
+                                <input type = "submit" value = "Add Book">
                             </div>
-                        <% }); %>
-                    <% } %>
-                </div>
+                        </form>
+                        
+                        <div id = "books">
+                            <% if(locals.books){ %>
+                                <% books.forEach((book) => { %>
+                                    <div class = "book" id = "book<%= book.id %>">
 
-            </div>
+                                        <div id = "top">
+                                            <div onclick = "location.href = '/book/<%= book.id %>'" class = "cover" id = "cover<%= book.id %>">
+                                                <img src = "<%= book.url %>">
+                                            </div>
+                                        </div>
+
+                                        <div id = "bottom">
+                                            <div id = "rating">
+                                                <% for(star of book.rating){ %>
+                                                    <i>star</i>
+                                                <% } %>
+                                            </div>
+
+                                            <form>
+                                                <input class = "edit" type = "submit" formaction = "/edit<%= book.id %>">
+
+                                                <input class = "delete" type = "submit" formaction = "/delete<%= book.id %>">
+                                            </form>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            <% } %>
+                        </div>
+
+                    </div>
+                </div>
+                
+            </main>
         </div>
-    </div>
-</main>
 <%- include("partials/footer.ejs") %>
