@@ -20,11 +20,9 @@
 
                     <div id = "contentCont">
 
-                        <form action = "/add" method = "POST">
                             <div id = "addBook">
-                                <input type = "submit" value = "Add Book">
+                                <input type = "button" onclick = "location.href = '/new/0'" value = "Add Book">
                             </div>
-                        </form>
                         
                         <div id = "books">
                             <% if(locals.books){ %>
@@ -44,7 +42,7 @@
                                                 <% } %>
                                             </div>
 
-                                            <form>
+                                            <form method = "POST">
                                                 <input class = "edit" type = "submit" formaction = "/edit/<%= book.id %>">
 
                                                 <input class = "delete" type = "submit" formaction = "/delete/<%= book.id %>">
