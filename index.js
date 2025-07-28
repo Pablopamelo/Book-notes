@@ -1,5 +1,5 @@
 import axios from "axios";
-import pg from "pg";
+import pg, { Result } from "pg";
 import express, {response} from "express";
 import bodyParser from "body-parser";
 
@@ -20,8 +20,48 @@ const db = new pg.Client({
 	port: 5432,
 });
 
-app.get("/", async (req,res) => {
-	res.render("index.ejs");
+db.connect();
+
+const books = [];
+
+let currentUserId = 1;
+
+app.get("/", async (req, res) => { 
+	try{
+		response = await db.query("SELECT * FROM books AS b JOIN users AS u ON b.id = u.id WHERE u.id = $1",[currentUserId]); // Gets books data from database for a current user 
+		books = response.rows;
+	}catch(error){
+		console.log(error);
+	}
+	res.render("index.ejs", {books: books});
+});
+
+app.get("/new/:id", (req,res) => {
+	res.render("addBook.ejs");
+});
+
+app.post("/add", (req,res) => {
+	try{
+
+	}catch(error){
+		console.log(error);
+	}
+});
+
+app.post("/edit/:id", (req,res) => {
+	try{
+
+	}catch(error){
+		console.log(error);
+	}
+});
+
+app.post("/delete/:id", (req,res) => {
+	try{
+
+	}catch(error){
+		console.log(error);
+	}
 });
 
 app.listen(port, () => {
