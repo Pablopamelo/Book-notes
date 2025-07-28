@@ -22,13 +22,13 @@ const db = new pg.Client({
 
 db.connect();
 
-const books = [];
+let books = [];
 
 let currentUserId = 1;
 
 app.get("/", async (req, res) => { 
 	try{
-		response = await db.query("SELECT * FROM books AS b JOIN users AS u ON b.id = u.id WHERE u.id = $1",[currentUserId]); // Gets books data from database for a current user 
+		const response = await db.query("SELECT * FROM books AS b JOIN users AS u ON b.id = u.id WHERE u.id = $1",[currentUserId]); // Gets books data from database for a current user 
 		books = response.rows;
 	}catch(error){
 		console.log(error);

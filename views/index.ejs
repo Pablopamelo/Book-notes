@@ -31,14 +31,16 @@
 
                                         <div id = "top">
                                             <div onclick = "location.href = '/book/<%= book.id %>'" class = "cover" id = "cover<%= book.id %>">
-                                                <img src = "<%= book.url %>">
+                                                <img src = "<%= book.cover %>">
                                             </div>
+
+                                            <div id = "bookTitle"> <%= book.title %> </div>
                                         </div>
 
                                         <div id = "bottom">
                                             <div id = "rating">
-                                                <% for(star of book.rating){ %>
-                                                    <i>star</i>
+                                                <% for(i = 0; i < book.rating; i++){ %>
+                                                    <div>star</div>
                                                 <% } %>
                                             </div>
 
