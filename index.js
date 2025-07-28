@@ -37,7 +37,13 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/new/:id", (req,res) => {
-	res.render("addBook.ejs");
+	const id = req.params.id;
+	if(id !== 0){
+		const book = books.find((book) => id === book.id);
+		res.render("addBook.ejs",{book});
+	}else{
+		res.render("addBook.ejs");
+	}
 });
 
 app.post("/add", (req,res) => {
