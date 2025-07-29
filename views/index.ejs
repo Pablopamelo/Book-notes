@@ -19,35 +19,41 @@
                     </div>
 
                     <div id = "contentCont">
-
-                            <div id = "addBook">
-                                <input type = "button" onclick = "location.href = '/new/0'" value = "Add Book">
-                            </div>
                         
                         <div id = "books">
+
+                           
+                            <div onclick = "location.href = '/new/0'" class = "book" id = "addBook">
+                                <div id = "filler">
+                                    <div id = "plus">+</div>
+                                </div>
+                            </div>
+
+
+                            
                             <% if(locals.books){ %>
                                 <% books.forEach((book) => { %>
-                                    <div class = "book" id = "book<%= book.id %>">
+                                    <div onclick = "location.href = '/book/<%= book.id %>'" class = "book" id = "book<%= book.id %>">
 
-                                        <div id = "top">
-                                            <div onclick = "location.href = '/book/<%= book.id %>'" class = "cover" id = "cover<%= book.id %>">
-                                                <img src = "<%= book.cover %>">
+                                        <div class = "top">
+                                            <div class = "cover" id = "cover<%= book.id %>">
+                                                <img class = "coverImg" src = "<%= book.cover %>">
                                             </div>
-
-                                            <div id = "bookTitle"> <%= book.title %> </div>
                                         </div>
 
-                                        <div id = "bottom">
-                                            <div id = "rating">
+                                        <div class = "bottom">
+                                            <div class = "bookTitle"> <%= book.title %> </div>
+
+                                            <div class = "rating">
                                                 <% for(i = 0; i < book.rating; i++){ %>
-                                                    <div>star</div>
+                                                    <div>*</div>
                                                 <% } %>
                                             </div>
 
-                                            <form method = "POST">
-                                                <input class = "edit" type = "submit" formaction = "/edit/<%= book.id %>">
+                                            <form class = "actions" method = "POST">
+                                                <button class = "edit" type = "submit" formaction = "/edit/<%= book.id %>" onclick="event.stopPropagation()">E</button>
 
-                                                <input class = "delete" type = "submit" formaction = "/delete/<%= book.id %>">
+                                                <button class = "delete" type = "submit" formaction = "/delete/<%= book.id %>" onclick="event.stopPropagation()">X</button>
                                             </form>
                                         </div>
                                     </div>
