@@ -1,0 +1,9 @@
+#headerCont{
+    flex: 2;
+    border-bottom: 1px solid gray;
+    font-size: 4rem;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
