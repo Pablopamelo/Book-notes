@@ -1,5 +1,61 @@
 <%- include("partials/header.ejs") %>
 
+    <div class = "sub" id = "mainCont">
+        <main>
+            <div class = "sub" id = "floatingCont">
+                <form method = "POST">
+                    <div id = "formCont">
+                        <div class = "top sub">
+                            <div id = "coverImg_form">
+                                <% if(locals.selectedCover){ %>
+                                    <img class = "coverImg sub" src = "<%= selectedCover.url %>">
+                                <% } %>
+                            </div>
 
+                            <div id = "coverOptions">
+                                <select id = "coverSelect" name = "cover">
+                                    <% if(locals.covers){ %>
+                                        <% covers.forEach((cover) => { %>
+                                            <opotion><%= cover.title %></opotion>
+                                        <% }); %>
+                                    <% } %>
+                                </select>
+
+                                <button id = "coverConfirm" formaction = "/loadCover" type = "submit">Submit</button>
+                            </div>
+                        </div>
+
+                        <div class = "bottom sub">
+                            <div id = "formTitle">
+                                <textarea maxlength = "45" id = "autoResize" type = "text" placeholder = "Title"></textarea>
+                            </div>
+
+                            <div id = "formRating">
+                                <select id = "ratingSelect" name = "stars">
+                                    <option>*</option>
+                                    <option>**</option>
+                                    <option>***</option>
+                                    <option>****</option>
+                                    <option>*****</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const textarea = document.getElementById("autoResize");
+        
+        textarea.addEventListener("input", () => {
+            textarea.style.height = "2.5rem";
+            if (textarea.scrollHeight > textarea.clientHeight) {
+                textarea.style.height = textarea.scrollHeight + "px";
+            }
+        });
+    </script>
+    
 
 <%- include("partials/footer.ejs") %>
