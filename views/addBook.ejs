@@ -11,23 +11,11 @@
                                     <img class = "coverImg sub" src = "<%= selectedCover.url %>">
                                 <% } %>
                             </div>
-
-                            <div id = "coverOptions">
-                                <select id = "coverSelect" name = "cover">
-                                    <% if(locals.covers){ %>
-                                        <% covers.forEach((cover) => { %>
-                                            <opotion><%= cover.title %></opotion>
-                                        <% }); %>
-                                    <% } %>
-                                </select>
-
-                                <button id = "coverConfirm" formaction = "/loadCover" type = "submit">Submit</button>
-                            </div>
                         </div>
 
                         <div class = "bottom sub">
                             <div id = "formTitle">
-                                <textarea maxlength = "45" id = "autoResize" type = "text" placeholder = "Title"></textarea>
+                                <textarea maxlength = "48" id = "autoResize" type = "text" placeholder = "Title"></textarea>
                             </div>
 
                             <div id = "formRating">
@@ -39,6 +27,8 @@
                                     <option>*****</option>
                                 </select>
                             </div>
+
+                            <button id = "bookConfirm" formaction = "/add" type = "submit">Submit</button>
                         </div>
                     </div>
                 </form>
