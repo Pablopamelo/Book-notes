@@ -1,5 +1,5 @@
 <%- include("partials/header.ejs") %>
-        <div id = "mainCont">
+        <div class = "main" id = "mainCont">
             <main>
 
                 <div id = "floatingCont">
@@ -35,13 +35,13 @@
                                 <% books.forEach((book) => { %>
                                     <div onclick = "location.href = '/book/<%= book.id %>'" class = "book" id = "book<%= book.id %>">
 
-                                        <div class = "top">
+                                        <div class = "top main">
                                             <div class = "cover" id = "cover<%= book.id %>">
                                                 <img class = "coverImg" src = "<%= book.cover %>">
                                             </div>
                                         </div>
 
-                                        <div class = "bottom">
+                                        <div class = "bottom main">
                                             <div class = "bookTitle"> <%= book.title %> </div>
 
                                             <div class = "rating">
