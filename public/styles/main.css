@@ -26,13 +26,14 @@ body{
     flex-direction: column;
 }
 
-#mainCont{
+#mainCont.main{
     flex: 27;
     font-size: 1.5rem;
+    overflow: hidden;
 }
 
-#floatingCont{
-    height: calc(100vh - 12rem) ;
+#floatingCont.main{
+    height: calc(100vh - 13rem) ;
     margin: 2rem;
     display: flex;
 }
@@ -56,7 +57,7 @@ body{
 }
 
 #books{
-    height: calc(100% - 4rem);
+    height: 100%;
     margin: 0 1rem 0 1rem;
     padding: 1rem;
     box-sizing: border-box;
@@ -84,19 +85,20 @@ body{
 
 #plus{
     border: 2px dashed gray;
-    border-radius: 8rem;
-    width: 8rem;
-    height: 8rem;
+    border-radius: 6rem;
+    width: 6rem;
+    height: 6rem;
     color: gray;
     text-align: center;
-    line-height: 160%;
-    font-size: 5rem;
+    line-height: 150%;
+    font-size: 4rem;
 }
 
 .book{
-    flex: 1 1 calc((100% - 3rem) / 5); /* gap compensation: 2 gaps of 1rem */
-    max-width: calc((100% - 3rem) / 5);
-    height: 43rem;
+    flex: 1 1 calc((100% - 3rem) / 4); /* gap compensation: 2 gaps of 1rem */
+    max-width: calc((100% - 3rem) / 4);
+    font-size: 0.75vw;
+    height: 32vw;
     border: 1px solid gray;
     box-sizing: border-box;
     transition: all 0.15s ease-in-out;
@@ -109,7 +111,7 @@ body{
     transform: scale(1.025);
 }
 
-.top{
+.top.main{
     flex: 9;
     border-bottom: 1px solid gray;
 }
@@ -121,13 +123,13 @@ body{
     justify-content: center;
 }
 
-.coverImg{
+.coverImg.main{
     text-align: center;
     width: 100% !important;
     height: 100% !important;
 }
 
-.bottom{
+.bottom.main{
     flex: 2;
     display: flex;
     flex-direction: column;
@@ -135,8 +137,8 @@ body{
 
 .bookTitle{
     text-align: center;
-    font-size: 2rem;
-    margin-top: 0.25rem;
+    font-size: 1.5em;
+    margin-top: 0.25em;
 }
 
 .rating{
@@ -152,14 +154,14 @@ body{
 }
 
 .edit, .delete{
-    height: 1.75rem;
-    width: 2rem;
+    height: 1.5em;
+    width: 1.75em;
     text-align: center;
-    font-size: 1.25rem;
+    font-size: 1em;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
     border: 1px solid gray;
-    border-radius: 0.25rem;
+    border-radius: 0.25em;
     background-color: inherit;
     color: gray;
 }
