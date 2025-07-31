@@ -28,8 +28,9 @@ let currentUserId = 1;
 
 app.get("/", async (req, res) => { 
 	try{
-		const response = await db.query("SELECT * FROM books AS b JOIN users AS u ON b.id = u.id WHERE u.id = $1",[currentUserId]); // Gets books data from database for a current user 
+		const response = await db.query("SELECT title, rating, cover FROM books AS b JOIN users AS u ON b.user_id = u.id WHERE u.id = $1",[currentUserId]); // Gets books data from database for a current user 
 		books = response.rows;
+		console.log(books);
 	}catch(error){
 		console.log(error);
 	}
@@ -46,12 +47,15 @@ app.get("/new/:id", (req,res) => {
 	}
 });
 
-app.post("/add", (req,res) => {
+app.post("/add", async (req,res) => {
 	try{
-
+		const title = req.body.title;
+		const stars = req.body.stars;
+		await db.query("INSERT INTO books(title,rating,cover,user_id) VALUES($1,$2,$3,$4)",[title, stars, "coming soon", currentUserId]);
 	}catch(error){
 		console.log(error);
 	}
+	res.redirect("/");
 });
 
 app.post("/edit/:id", (req,res) => {
