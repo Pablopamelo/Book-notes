@@ -18,6 +18,7 @@
 
 .top.sub{
     flex: 7;
+    max-height: 37.5rem;
 }
 
 #coverImg_form{

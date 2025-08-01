@@ -113,6 +113,7 @@ body{
 
 .top.main{
     flex: 13;
+    max-height: 37.5rem;
     border-bottom: 1px solid gray;
 }
 

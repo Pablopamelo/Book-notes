@@ -7,28 +7,33 @@
                     <div id = "formCont">
                         <div class = "top sub">
                             <div id = "coverImg_form">
-                                <% if(locals.selectedCover){ %>
-                                    <img class = "coverImg sub" src = "<%= selectedCover.url %>">
+                                <% if(locals.book){ %>
+                                    <img class = "coverImg sub" src = "<%= book.cover %>">
                                 <% } %>
                             </div>
                         </div>
 
                         <div class = "bottom sub">
                             <div id = "formTitle">
-                                <textarea id = "autoResize" type = "text" name = "title" maxlength = "48" placeholder = "Title" required></textarea>
+                                <% if(!locals.book){ %>
+                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "48" placeholder = "Title" required></textarea>
+                                <% }else{ %>
+                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "48" placeholder = "Title" required><%= book.title %></textarea>
+                                <% } %>
                             </div>
 
                             <div id = "formRating">
-                                <select id = "ratingSelect" name = "stars">
-                                    <option selected value = "1">*</option>
-                                    <option value = "2">**</option>
-                                    <option value = "3">***</option>
-                                    <option value = "4">****</option>
-                                    <option value = "5">*****</option>
+                                <select id = "ratingSelect" name = "rating">
+                                    <% for (let i = 1; i <= 5; i++) { %>
+                                        <option value="<%= i %>" <%= book && book.rating == i ? "selected" : "" %>> <%= "*".repeat(i) %> </option>
+                                    <% } %>
                                 </select>
                             </div>
-
-                            <button id = "bookConfirm" formaction = "/add" type = "submit">Submit</button>
+                            <% if(!locals.book){ %>
+                                <button id = "bookConfirm" formaction = "/add" type = "submit">Submit</button>
+                            <% }else{ %>
+                                <button id = "bookConfirm" formaction = "/edit/<%= book.id %>"" type = "submit">Submit</button>
+                            <% } %>
                         </div>
                     </div>
                 </form>
