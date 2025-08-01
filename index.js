@@ -40,7 +40,6 @@ app.post("/new/:id", (req,res) => {
 	const id = parseInt(req.params.id);
 	if(id !== 0){
 		const book = books.find((book) => id === book.id);
-		console.log(book.rating);
 		res.render("addBook.ejs",{book});
 	}else{
 		res.render("addBook.ejs",{book: null});
