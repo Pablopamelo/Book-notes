@@ -9,6 +9,7 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+app.use(express.json());
 
 app.set('view engine', 'ejs');
 
@@ -25,6 +26,30 @@ db.connect();
 let books = [];
 
 let currentUserId = 1;
+
+async function getCover(title){
+	let response;
+	try{
+		response = await axios.get("https://openlibrary.org/search.json",{
+			params:{
+				q: title,
+			},
+		});
+	}catch(error){
+		console.log(error);
+	}
+		
+	const bookData = response.data.docs?.[0];
+	const cover_olid = bookData.cover_edition_key;	
+	let cover_url;
+
+	if(cover_olid === '' || cover_olid == "undefined"){
+		cover_url = "https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
+	}else{
+		cover_url = `https://covers.openlibrary.org/b/olid/${cover_olid}.jpg`;
+	}
+	return cover_url;
+}
 
 app.get("/", async (req, res) => { 
 	try{
@@ -50,27 +75,8 @@ app.post("/add", async (req,res) => {
 	try{
 		const title = req.body.title;
 		const rating = req.body.rating;
-		let response;
-
-		try{
-			response = await axios.get("https://openlibrary.org/search.json",{
-				params:{
-					q: title,
-				},
-			});
-		}catch(error){
-			console.log(error);
-		}
-		
-		const bookData = response.data.docs?.[0];
-		const cover_olid = bookData.cover_edition_key;	
-		let cover_url;
-
-		if(cover_olid === '' || cover_olid == "undefined"){
-			cover_url = "https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
-		}else{
-			cover_url = `https://covers.openlibrary.org/b/olid/${cover_olid}.jpg`;
-		}
+	
+		let cover_url = getCover(title);	
 
 		await db.query("INSERT INTO books(title,rating,cover,user_id) VALUES($1,$2,$3,$4)",
 		[title, rating, cover_url, currentUserId]);
@@ -87,27 +93,7 @@ app.post("/edit/:id", async (req,res) => {
 		const title = req.body.title;
 		const rating = req.body.rating;
 
-		let response;
-
-		try{
-			response = await axios.get("https://openlibrary.org/search.json",{
-				params:{
-					q: title,
-				},
-			});
-		}catch(error){
-			console.log(error);
-		}
-		
-		const bookData = response.data.docs?.[0];
-		const cover_olid = bookData.cover_edition_key;	
-		let cover_url;
-
-		if(cover_olid == '' || cover_olid == "undefined"){
-			cover_url = "https://salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png";
-		}else{
-			cover_url = `https://covers.openlibrary.org/b/olid/${cover_olid}.jpg`;
-		}
+		let cover_url = getCover(title);
 
 		await db.query(`UPDATE books SET title = $1, rating = $2, cover = $3 WHERE id = $4`,[title, rating, cover_url, id])
 		
@@ -126,6 +112,14 @@ app.post("/delete/:id", async (req,res) => {
 		console.log(error);
 	}
 	res.redirect("/");
+});
+
+app.post("/cover", async (req,res) => {
+	const title = req.body.title;
+
+	let cover_url = await getCover(title);
+
+	res.json(cover_url);
 });
 
 app.listen(port, () => {
