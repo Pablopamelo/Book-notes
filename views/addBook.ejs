@@ -1,21 +1,22 @@
 <%- include("partials/header.ejs") %>
+<link href = "/styles/addBook.css" rel = "stylesheet">
 
-    <div class = "sub" id = "mainCont">
+    <div id = "mainCont">
         <main>
-            <div class = "sub" id = "floatingCont">
+            <div id = "floatingCont">
                 <form method = "POST">
                     <div id = "formCont">
-                        <div class = "top sub">
+                        <div class = "top">
                             <div id = "coverImg_form">
                                 <% if(locals.book){ %>
-                                    <img id = "img" class = "coverImg sub" src = "<%= book.cover %>">
+                                    <img id = "img" class = "coverImg" src = "<%= book.cover %>">
                                 <% }else{ %>
-                                    <img id = "img" class = "coverImg sub" src = "">
+                                    <img id = "img" class = "coverImg" src = "">
                                 <% } %>
                             </div>
                         </div>
 
-                        <div class = "bottom sub">
+                        <div class = "bottom">
                             <div id = "formTitle">
                                 <% if(!locals.book){ %>
                                     <textarea id = "autoResize" type = "text" name = "title" maxlength = "48" placeholder = "Title" required></textarea>

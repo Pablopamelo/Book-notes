@@ -1,9 +1,9 @@
-#mainCont.sub{
+#mainCont{
     flex: 27;
     overflow: hidden;
 }
 
-#floatingCont.sub{
+#floatingCont{
     width: 20%;
     height: 75vh;
     margin: calc(10.39vh - 3rem) auto;
@@ -16,7 +16,7 @@
     border: 1px solid gray;
 }
 
-.top.sub{
+.top{
     flex: 7;
     max-height: 37.5rem;
 }
@@ -26,13 +26,13 @@
     margin-bottom: 1rem;
 }
 
-.coverImg.sub{
+.coverImg{
     width: 100%;
     height: 100%;
     text-align: center;
 }
 
-.bottom.sub{
+.bottom{
     flex: 1;
     display: flex;
     flex-direction: column;

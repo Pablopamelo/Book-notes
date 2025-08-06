@@ -23,8 +23,6 @@ const db = new pg.Client({
 
 db.connect();
 
-let books = [];
-
 let currentUserId = 1;
 
 async function getCover(title){
@@ -51,17 +49,45 @@ async function getCover(title){
 	return cover_url;
 }
 
-app.get("/", async (req, res) => { 
+async function getBook(){
+	let books;
 	try{
-		const response = await db.query("SELECT b.id, b.title, b.rating, b.cover FROM books AS b JOIN users AS u ON b.user_id = u.id WHERE u.id = $1",[currentUserId]); // Gets books data from database for a current user 
+		const response = await db.query("SELECT id, title, rating, cover FROM books WHERE user_id = $1",[currentUserId]); // Gets books data from database for a current user 
 		books = response.rows;
 	}catch(error){
 		console.log(error);
 	}
+	return books;
+}
+
+async function getNotes(){
+	let notes;
+	try{
+		const response = await db.query("SELECT n.noteTitle, n.noteContent, n.note_date FROM notes AS n JOIN books AS b ON n.book_id = b.id WHERE b.user_id = $1",[currentUserId]);
+		notes = response.rows;
+	}catch(error){
+		console.log(error);
+	}
+	return notes;
+}
+
+app.get("/", async (req, res) => { 
+	const books = await getBook();
 	res.render("index.ejs", {books: books});
 });
 
-app.post("/new/:id", (req,res) => {
+app.get("/book/:id", async (req,res) =>{
+	const books = await getBook();
+	const notes = await getNotes();
+	const id = parseInt(req.params.id);
+	let book;
+
+	book = books.find((book) => id === book.id);
+	res.render("book.ejs", {notes, book});
+});
+
+app.post("/new/:id", async (req,res) => {
+	const books = await getBook();
 	const id = parseInt(req.params.id);
 	if(id !== 0){
 		const book = books.find((book) => id === book.id);
@@ -93,7 +119,7 @@ app.post("/edit/:id", async (req,res) => {
 		const title = req.body.title;
 		const rating = req.body.rating;
 
-		let cover_url = getCover(title);
+		let cover_url = await getCover(title);
 
 		await db.query(`UPDATE books SET title = $1, rating = $2, cover = $3 WHERE id = $4`,[title, rating, cover_url, id])
 		

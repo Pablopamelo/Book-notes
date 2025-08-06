@@ -9,13 +9,13 @@ body{
     flex-direction: column;
 }
 
-#mainCont.main{
+#mainCont{
     flex: 27;
     font-size: 1.5rem;
     overflow: hidden;
 }
 
-#floatingCont.main{
+.floatingCont{
     height: calc(100vh - 13rem) ;
     margin: 2rem;
     display: flex;
@@ -94,7 +94,7 @@ body{
     transform: scale(1.025);
 }
 
-.top.main{
+.top{
     flex: 13;
     max-height: 37.5rem;
     border-bottom: 1px solid gray;
@@ -107,13 +107,13 @@ body{
     justify-content: center;
 }
 
-.coverImg.main{
+.coverImg{
     text-align: center;
     width: 100% !important;
     height: 100% !important;
 }
 
-.bottom.main{
+.bottom{
     flex: 2;
     display: flex;
     flex-direction: column;

@@ -1,8 +1,10 @@
 <%- include("partials/header.ejs") %>
-        <div class = "main" id = "mainCont">
+<link href = "/styles/main.css" rel = "stylesheet">
+
+        <div id = "mainCont">
             <main>
 
-                <div class = "main" id = "floatingCont">
+                <div class = "floatingCont">
 
                     <div id = "filtersCont">
 
@@ -34,19 +36,17 @@
                                 <% books.forEach((book) => { %>
                                     <div onclick = "location.href = '/book/<%= book.id %>'" class = "book" id = "book<%= book.id %>">
 
-                                        <div class = "top main">
+                                        <div class = "top">
                                             <div class = "cover" id = "cover<%= book.id %>">
-                                                <img class = "coverImg main" src = "<%= book.cover %>">
+                                                <img class = "coverImg" src = "<%= book.cover %>">
                                             </div>
                                         </div>
 
-                                        <div class = "bottom main">
+                                        <div class = "bottom">
                                             <div class = "bookTitle"> <%= book.title %> </div>
 
                                             <div class = "rating">
-                                                <% for(i = 0; i < book.rating; i++){ %>
-                                                    <div>*</div>
-                                                <% } %>
+                                                <%= "*".repeat(book.rating); %>
                                             </div>
 
                                             <form class = "actions" method = "POST">
