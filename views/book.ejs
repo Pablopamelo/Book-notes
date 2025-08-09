@@ -25,11 +25,57 @@
 
                 <div class = "right">
                     <div id = "bookNotes">
+                        <% if(locals.notes){ %>
+                            <% notes.forEach((note) => { %>
+                                <div class = "note" id = "note<%= note.id %>">
+                                    <form method = "POST">
+                                        <div class = "formCont">
+                                            <div class = "noteTitle" id = "noteTitle<% note.id %>"><%= note.noteTitle %></div>
+                                            <input class = "noteTitle_edit<%= note.id %>" type = "hidden">
 
+                                            <div class = "noteContent" id = "noteContent<% note.id %>"><%= note.noteContent %></div>
+                                            <input class = "noteContent_edit<%= note.id %>" type = "hidden">
+
+                                            <div class = "noteDate"><%= note.note_date %></div>
+
+                                            <button onclick = "" class = "noteEdit"></button>
+                                            <button onclick = "Edit('<%= note.id %>')" class = "submitNoteEdit" hidden></button>
+
+                                            <button formaction = "/noteDelete/<%= note.id %>" class = "noteDelete"></button>
+                                        </div>
+                                    </form>
+                                </div>
+                           <% }); %>
+                        <% } %>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        async function Edit(id_string){
+            const id = parseInt(id_string);
+            const title = document.getElementsByClassName(`noteTitle_edit${id}`)[0]?.value;
+            const content = document.getElementsByClassName(`noteContent_edit${id}`)[0]?.value;
+
+            try{
+                const response = await axios.patch(`/noteEdit/${id}`,
+                {
+                    title: title,
+                    content: content
+                });
+
+                const newTitle = response.data.title;
+                const newContent = response.data.content;
+
+                document.getElementById(`noteTitle${id}`).innerText = newTitle;
+                document.getElementById(`noteContent${id}`).innerText = newContent;
+            }catch(error){  
+                console.log(error);
+            }
+        }
+    </script>
+
 
 <%- include("partials/footer.ejs") %>

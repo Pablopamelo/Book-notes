@@ -2,8 +2,12 @@ import axios from "axios";
 import pg, { Result } from "pg";
 import express, {response} from "express";
 import bodyParser from "body-parser";
+import EventEmitter from 'events';
 
 const app = express();
+
+const emitter = new EventEmitter;
+emitter.setMaxListeners(11);
 
 const port = 3000;
 
@@ -49,7 +53,7 @@ async function getCover(title){
 	return cover_url;
 }
 
-async function getBook(){
+async function getBooks(){
 	let books;
 	try{
 		const response = await db.query("SELECT id, title, rating, cover FROM books WHERE user_id = $1",[currentUserId]); // Gets books data from database for a current user 
@@ -63,7 +67,7 @@ async function getBook(){
 async function getNotes(){
 	let notes;
 	try{
-		const response = await db.query("SELECT n.noteTitle, n.noteContent, n.note_date FROM notes AS n JOIN books AS b ON n.book_id = b.id WHERE b.user_id = $1",[currentUserId]);
+		const response = await db.query("SELECT n.id, n.noteTitle, n.noteContent, n.note_date FROM notes AS n JOIN books AS b ON n.book_id = b.id WHERE b.user_id = $1",[currentUserId]);
 		notes = response.rows;
 	}catch(error){
 		console.log(error);
@@ -72,22 +76,28 @@ async function getNotes(){
 }
 
 app.get("/", async (req, res) => { 
-	const books = await getBook();
+	const books = await getBooks();
 	res.render("index.ejs", {books: books});
 });
 
 app.get("/book/:id", async (req,res) =>{
-	const books = await getBook();
-	const notes = await getNotes();
+	const books = await getBooks();
+	let notes = await getNotes();
+	notes = [
+			{
+				id: 1,
+				noteTitle: "bimbom",
+				noteContent: "aoihwdoahwdikhawudgaiuwhd aiwhd iuahjwdiahwd",
+				note_date: "today" 
+			},
+		];
 	const id = parseInt(req.params.id);
-	let book;
-
-	book = books.find((book) => id === book.id);
+	const book = books.find((book) => id === book.id);
 	res.render("book.ejs", {notes, book});
 });
 
 app.post("/new/:id", async (req,res) => {
-	const books = await getBook();
+	const books = await getBooks();
 	const id = parseInt(req.params.id);
 	if(id !== 0){
 		const book = books.find((book) => id === book.id);
@@ -146,6 +156,23 @@ app.post("/cover", async (req,res) => {
 	let cover_url = await getCover(title);
 
 	res.json(cover_url);
+});
+
+app.post("/noteAdd/:id", async (req,res) => {
+	const id = req.params.id;
+
+	redirect(`/book/${id}`);
+});
+
+app.post("/noteDelete/:id", async (req,res) => {
+	const id = req.params.id;
+
+	redirect(`/book/${id}`);
+});
+
+app.patch("/noteEdit/:id", async (req,res) => {
+	const id = req.params.id;
+
 });
 
 app.listen(port, () => {
