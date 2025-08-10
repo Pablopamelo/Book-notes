@@ -38,8 +38,8 @@
 
                                             <div class = "noteDate"><%= note.note_date %></div>
 
-                                            <button onclick = "" class = "noteEdit"></button>
-                                            <button onclick = "Edit('<%= note.id %>')" class = "submitNoteEdit" hidden></button>
+                                            <button onclick = "Show('<%= note.id %>');" class = "noteEdit"  id = "noteEdit<%= note.id %>"></button>
+                                            <button onclick = "Edit('<%= note.id %>')" class = "submitNoteEdit" id = "submitNoteEdit<%= note.id %>" hidden></button>
 
                                             <button formaction = "/noteDelete/<%= note.id %>" class = "noteDelete"></button>
                                         </div>
@@ -54,6 +54,14 @@
     </div>
 
     <script>
+        function Show(id_string){
+            const id = parseInt(id_string);
+            document.getElementById(`noteEdit${id}`).hidden = true;
+            document.getElementById(`noteTitle${id}`).hidden = true;
+            document.getElementById(`noteContent${id}`).hidden = true;
+            document.getElementById(`submitNoteEdit${id}`).hidden = false;
+        }
+
         async function Edit(id_string){
             const id = parseInt(id_string);
             const title = document.getElementsByClassName(`noteTitle_edit${id}`)[0]?.value;
@@ -71,6 +79,11 @@
 
                 document.getElementById(`noteTitle${id}`).innerText = newTitle;
                 document.getElementById(`noteContent${id}`).innerText = newContent;
+
+                document.getElementById(`noteEdit${id}`).hidden = false;
+                document.getElementById(`noteTitle${id}`).hidden = false;
+                document.getElementById(`noteContent${id}`).hidden = false;
+                document.getElementById(`submitNoteEdit${id}`).hidden = true;
             }catch(error){  
                 console.log(error);
             }
