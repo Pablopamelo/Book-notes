@@ -1,8 +1,10 @@
 <%- include("partials/header.ejs") %>
+<link href = "/styles/main.css" rel = "stylesheet">
+
         <div id = "mainCont">
             <main>
 
-                <div id = "floatingCont">
+                <div class = "floatingCont">
 
                     <div id = "filtersCont">
 
@@ -19,18 +21,17 @@
                     </div>
 
                     <div id = "contentCont">
+
+                        <form id = "bookForm" method = "POST" action = "/new/0"></form>
                         
                         <div id = "books">
 
-                           
-                            <div onclick = "location.href = '/new/0'" class = "book" id = "addBook">
-                                <div id = "filler">
-                                    <div id = "plus">+</div>
+                                <div id = "addBook" class = "book">
+                                    <div id = "filler">
+                                        <div id = "plus">+</div>
+                                    </div>
                                 </div>
-                            </div>
 
-
-                            
                             <% if(locals.books){ %>
                                 <% books.forEach((book) => { %>
                                     <div onclick = "location.href = '/book/<%= book.id %>'" class = "book" id = "book<%= book.id %>">
@@ -45,13 +46,11 @@
                                             <div class = "bookTitle"> <%= book.title %> </div>
 
                                             <div class = "rating">
-                                                <% for(i = 0; i < book.rating; i++){ %>
-                                                    <div>*</div>
-                                                <% } %>
+                                                <%= "*".repeat(book.rating); %>
                                             </div>
 
                                             <form class = "actions" method = "POST">
-                                                <button class = "edit" type = "submit" formaction = "/edit/<%= book.id %>" onclick="event.stopPropagation()">E</button>
+                                                <button class = "edit" type = "submit" formaction = "/new/<%= book.id %>" onclick="event.stopPropagation()">E</button>
 
                                                 <button class = "delete" type = "submit" formaction = "/delete/<%= book.id %>" onclick="event.stopPropagation()">X</button>
                                             </form>
@@ -66,4 +65,11 @@
                 
             </main>
         </div>
+
+    <script>
+        document.getElementById('addBook').addEventListener('click', function () {
+            document.getElementById('bookForm').requestSubmit();
+        });
+    </script>
+    
 <%- include("partials/footer.ejs") %>

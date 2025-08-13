@@ -1,0 +1,134 @@
+#mainCont{
+    flex: 27;
+    font-size: 1.5rem;
+    overflow: hidden;
+}
+
+.floatingCont{
+    width: 40%;
+    height: 64vh;
+    margin: calc(16.39vh - 3rem) auto 11.95vh auto;
+    display: flex;
+    justify-content: center;
+    border: 1px solid gray;
+}
+
+.left{
+    text-align: center;
+    width: 50%;
+    border-right: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+}
+
+.top{
+    flex: 7;
+    max-height: 36rem;
+}
+
+.bottom{
+    margin-top: 1.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book{
+    width: 100%;
+}
+
+.coverImg{
+    width: 100%;
+    min-width: 10rem;
+}
+
+.right{
+    width: 50%;
+}
+
+#bookNotes{
+    width: 100%;
+    height: 64vh;;
+    overflow-y: scroll;
+}
+
+.note{
+    border: 1px solid gray;
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.formCont{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.noteTitle{
+    font-size: 2.2rem;
+    border-bottom: 1px solid gray;
+    padding: 0.1rem;
+    word-wrap: break-word;
+}
+
+.noteContent{
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+    padding: 0.1rem;
+    word-wrap: break-word;
+}
+
+#noteTitleAdd{
+    font-size: 2.2rem;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid gray;
+    padding: 0.1rem;
+    word-wrap: break-word;
+    height: 2.6rem;
+    resize: none;
+}
+
+#noteContentAdd{
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+    border: 0;
+    outline: 0;
+    padding: 0.1rem;
+    word-wrap: break-word;
+    height: 1.75rem;
+    resize: none;
+}
+
+.noteDate{
+    font-size: 1rem;
+    padding: 0.1rem;
+}
+
+button{
+    height: 1.25rem;
+    flex: 1;
+    border: 1px solid gray;
+    border-radius: 0.25rem;
+    outline: 0;
+}
+
+.buttons{
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.noteEdit{
+    background-color: green;
+}
+
+.sumbitNoteEdit{
+    background-color: greenyellow;
+}
+
+.noteDelete{
+    background-color: red;
+}

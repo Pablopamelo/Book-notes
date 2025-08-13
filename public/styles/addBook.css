@@ -1,0 +1,74 @@
+#mainCont{
+    flex: 27;
+    overflow: hidden;
+}
+
+.floatingCont{
+    width: 20%;
+    height: 76.4vh;
+    margin: calc(10.39vh - 3rem) auto;
+}
+
+#formCont{
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid gray;
+}
+
+.top{
+    flex: 7;
+    max-height: 36rem;
+    height: 36rem;
+}
+
+#coverImg_form{
+    height: 100%;
+    margin-bottom: 1rem;
+}
+
+.coverImg{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.bottom{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#formTitle{
+    width: 75%;
+    margin-top: 1rem;
+}
+
+#formTitle > textarea{
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    height: 2.5rem;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid gray;
+    word-wrap: break-word;
+    resize: none;
+}
+
+#formRating{
+    margin-top: 0.5rem;
+}
+
+#ratingSelect{
+    color: rgb(187, 166, 49)
+}
+
+#bookConfirm{
+    display: block;
+    width: 25%;
+    height: 1.75rem;
+    margin-bottom: 1rem;
+    margin-top: 1.75rem;
+}
