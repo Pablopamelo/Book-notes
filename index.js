@@ -4,6 +4,7 @@ import express, {response} from "express";
 import bodyParser from "body-parser";
 import EventEmitter from 'events';
 import { get } from "http";
+import dotenv from 'dotenv';
 
 const app = express();
 
@@ -11,6 +12,8 @@ const emitter = new EventEmitter;
 emitter.setMaxListeners(11);
 
 const port = 3000;
+
+dotenv.config();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -22,7 +25,7 @@ const db = new pg.Client({
     host: "localhost",
 	user: "postgres",
 	database: "bookNotes",
-	password: "0kbIKir6",
+	password: process.env.PASSWORD,
 	port: 5432,
 });
 
