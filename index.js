@@ -57,7 +57,7 @@ async function getBooks(){
 	let books;
 	try{
 		const response = await db.query("SELECT id, title, rating, cover FROM books WHERE user_id = $1",
-		[currentUserId]); // Gets books data from database for a current user 
+		[currentUserId]);
 		books = response.rows;
 	}catch(error){
 		console.log(error);
@@ -65,11 +65,11 @@ async function getBooks(){
 	return books;
 }
 
-async function getNotes(){
+async function getNotes(id){
 	let notes;
 	try{
-		const response = await db.query("SELECT n.id, n.noteTitle, n.noteContent, n.note_date FROM notes AS n JOIN books AS b ON n.book_id = b.id WHERE b.user_id = $1",
-		[currentUserId]);
+		const response = await db.query("SELECT n.id, n.noteTitle, n.noteContent, n.note_date FROM notes AS n JOIN books AS b ON n.book_id = b.id WHERE b.user_id = $1 AND b.id = $2 ORDER BY n.note_date DESC",
+		[currentUserId, id]);
 		notes = response.rows;
 	}catch(error){
 		console.log(error);
@@ -100,23 +100,37 @@ function getDate(){
 app.get("/", async (req, res) => { 
 	const books = await getBooks();
 	const date = getDate();
-	console.log(date);
 	res.render("index.ejs", {books: books});
 });
 
 app.get("/book/:id", async (req,res) =>{
-	const books = await getBooks();
-	let notes = await getNotes();
-	notes = [
-			{
-				id: 1,
-				noteTitle: "bimbom",
-				noteContent: "aoihwdoahwdikhawudgaiuwhd aiwhd iuahjwdiahwd",
-				note_date: "today" 
-			},
-		];
 	const id = parseInt(req.params.id);
+
+	const books = await getBooks();
+	const notes = await getNotes(id);
+
+	notes.forEach(note => {
+		const date = new Date(note.note_date);
+
+		const pad = (n) => n.toString().padStart(2, '0');
+
+		const hours = pad(date.getHours());
+		const minutes = pad(date.getMinutes());
+		const seconds = pad(date.getSeconds());
+
+		const day = pad(date.getDate());
+		const month = pad(date.getMonth() + 1);
+		const year = date.getFullYear();
+
+		note.note_date = `${hours}:${minutes}:${seconds} ${day}.${month}.${year}`;
+	});
+
 	const book = books.find((book) => id === book.id);
+
+	if (!book) {
+    return res.status(404).send("Book not found");
+}
+
 	res.render("book.ejs", {notes, book});
 });
 
@@ -183,47 +197,53 @@ app.post("/cover", async (req,res) => {
 	res.json(cover_url);
 });
 
-app.post("/noteAdd", async (req,res) => {
+app.post("/noteAdd/:id", async (req,res) => {
+	const id = parseInt(req.params.id);
 	const title = req.body.title;
 	const content = req.body.content;
 
 	const date = getDate();
 
-	db.query("INSERT INTO notes(noteTitle, noteContent, note_date) VALUES($1,$2,$3)",
-	[title, content, date]);
+	db.query("INSERT INTO notes(notetitle, notecontent, note_date, book_id) VALUES($1,$2,TO_TIMESTAMP($3, 'HH24:MI:SS DD.MM.YYYY'),$4)",
+	[title, content, date, id]);
 
-	redirect(`/book/${id}`);
+	res.redirect(`/book/${id}`);
 });
 
-app.post("/noteDelete/:id", async (req,res) => {
-	const id = req.params.id;
+app.post("/noteDelete/:bId/:nId", async (req,res) => {
+	const bId = req.params.bId;
+	const nId = req.params.nId;
 
 	try{
-		db.query("DELETE FROM notes WHERE id = $1",[id]);
+		db.query("DELETE FROM notes WHERE id = $1",[nId]);
 	}catch(error){
 		console.log(error);
 	}
 
-	redirect(`/book/${id}`);
+	res.redirect(`/book/${bId}`);
 });
 
 app.patch("/noteEdit/:id", async (req,res) => {
 	const id = req.params.id;
 	const title = req.body.title;
 	const content = req.body.content;
+
+	console.log(title);
+	console.log(content);
+
 	let response;
 
 	const date = getDate();
 
 	try{
-		db.query("UPDATE notes SET(noteTitle = $1, noteContent = $2, note_date = $3 WHERE id = $4)",
+		db.query("UPDATE notes SET noteTitle = $1, noteContent = $2, note_date = TO_TIMESTAMP($3, 'HH24:MI:SS DD.MM.YYYY') WHERE id = $4",
 		[title, content, date, id]);
 		
 		response = {
 			id: id,
 			title: title,
 			content: content,
-			date: finalDate
+			date: date
 		}
 
 	}catch(error){

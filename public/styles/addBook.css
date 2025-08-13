@@ -3,9 +3,9 @@
     overflow: hidden;
 }
 
-#floatingCont{
+.floatingCont{
     width: 20%;
-    height: 75vh;
+    height: 76.4vh;
     margin: calc(10.39vh - 3rem) auto;
 }
 
