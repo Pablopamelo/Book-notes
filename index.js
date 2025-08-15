@@ -33,30 +33,39 @@ db.connect();
 
 let currentUserId = 1;
 
-async function getCover(title){
-	let response;
+async function getBook(title){
 	try{
-		response = await axios.get("https://openlibrary.org/search.json",{
+		const response = await axios.get("https://openlibrary.org/search.json",{
 			params:{
 				q: title,
 			},
 		});
+		const book = response.data.docs?.[0];
+		return book;
 	}catch(error){
 		console.log(error);
+		return 0;
 	}
+}
+
+async function getCover(title){
+	const book = await getBook(title);
+
+	if(book){
+		const cover_olid = book.cover_edition_key;	
+
+		let cover_url = `https://covers.openlibrary.org/b/olid/${cover_olid}-L.jpg`;
 		
-	const bookData = response.data.docs?.[0];
-	const cover_olid = bookData.cover_edition_key;	
-
-	let cover_url = `https://covers.openlibrary.org/b/olid/${cover_olid}-L.jpg`;
-
-	return cover_url;
+		return cover_url;
+	}else{
+		return "Img not found";
+	}
 }
 
 async function getBooks(){
 	let books;
 	try{
-		const response = await db.query("SELECT id, title, rating, cover FROM books WHERE user_id = $1",
+		const response = await db.query("SELECT id, title, rating, cover, author FROM books WHERE user_id = $1",
 		[currentUserId]);
 		books = response.rows;
 	}catch(error){
@@ -99,7 +108,6 @@ function getDate(){
 
 app.get("/", async (req, res) => { 
 	const books = await getBooks();
-	const date = getDate();
 	res.render("index.ejs", {books: books});
 });
 
@@ -149,11 +157,15 @@ app.post("/add", async (req,res) => {
 	try{
 		const title = req.body.title;
 		const rating = req.body.rating;
+
+		const book = await getBook(title);
+
+		const author = book.author_name?.[0];
 	
 		let cover_url = await getCover(title);	
 
-		await db.query("INSERT INTO books(title,rating,cover,user_id) VALUES($1,$2,$3,$4)",
-		[title, rating, cover_url, currentUserId]);
+		await db.query("INSERT INTO books(title, rating, cover, user_id, author) VALUES($1,$2,$3,$4,$5)",
+		[title, rating, cover_url, currentUserId, author]);
 
 	}catch(error){
 		console.log(error);

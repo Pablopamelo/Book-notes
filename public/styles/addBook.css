@@ -1,16 +1,24 @@
 #mainCont{
     flex: 27;
-    overflow: hidden;
+    overflow-y: scroll;
+}
+
+#back{
+    position: absolute;
+    top: -2rem;
+    font-size: 1.5rem;
 }
 
 .floatingCont{
-    width: 20%;
-    height: 76.4vh;
+    position: relative;
+    width: 18%;
+    height: 40rem;
     margin: calc(10.39vh - 3rem) auto;
+    margin-bottom: 3.5rem;
 }
 
 #formCont{
-    height: 75vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     border: 1px solid gray;
@@ -19,25 +27,30 @@
 .top{
     flex: 7;
     max-height: 36rem;
-    height: 36rem;
 }
 
 #coverImg_form{
     height: 100%;
-    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 2rem;
 }
 
 .coverImg{
     width: 100%;
-    height: 100%;
+    height: 60vh;
+    max-height: 36.5rem;
     text-align: center;
 }
 
 .bottom{
-    flex: 1;
+    flex: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#autoResize{
+    max-height: 7.5rem;
 }
 
 #formTitle{

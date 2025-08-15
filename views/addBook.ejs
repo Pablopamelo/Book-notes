@@ -4,6 +4,7 @@
     <div id = "mainCont">
         <main>
             <div class = "floatingCont">
+                <div id = "back"><a href = "/">Back</a></div>
                 <form method = "POST">
                     <div id = "formCont">
                         <div class = "top">
@@ -19,9 +20,9 @@
                         <div class = "bottom">
                             <div id = "formTitle">
                                 <% if(!locals.book){ %>
-                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "48" placeholder = "Title" required></textarea>
+                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "47" placeholder = "Title" required></textarea>
                                 <% }else{ %>
-                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "48" placeholder = "Title" required><%= book.title %></textarea>
+                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "47" placeholder = "Title" required><%= book.title %></textarea>
                                 <% } %>
                             </div>
 
@@ -72,7 +73,13 @@
                 timer = setTimeout(async () => {
                     const response = await axios.post("/cover", {title: title});
                     const cover_url = response.data;
-                    img.src = cover_url;
+                    if(cover_url === "Img not found"){
+                        img.alt = cover_url;
+                        img.src = "";
+                    }else{
+                        img.alt = "Book cover";
+                        img.src = cover_url;
+                    }
                 },1000); 
             }catch(error){
                 console.log("error: " + error);
