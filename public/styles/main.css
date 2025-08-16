@@ -6,7 +6,7 @@
 
 .floatingCont{
     height: calc(100vh - 13rem);
-    margin: 2rem;
+    margin: 1.5rem;
     display: flex;
 }
 
@@ -18,8 +18,33 @@
 #filters{
     display: flex;
     flex-direction: column;
-    width: 90%;
+    width: 100%;
+    margin-top: 1rem;
     gap: 1rem;
+}
+
+.filter{
+    display: flex;
+    padding-right: 1rem;
+}
+
+.filter > label{
+    min-width: 7.5rem;
+    font-size: 1.25rem;
+}
+
+.filter > input{
+    flex: 1;
+}
+
+.filter > select{
+    flex: 1;
+    max-width: 35%;
+}
+
+#filters > button{
+    width: 6.5rem;
+    margin-top: 0.5rem;
 }
 
 #contentCont{
