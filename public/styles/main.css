@@ -1,18 +1,50 @@
 #mainCont{
     flex: 27;
     font-size: 1.5rem;
-    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .floatingCont{
     height: calc(100vh - 13rem);
-    margin: 2rem;
+    margin: 1.5rem;
     display: flex;
 }
 
 #filtersCont{
     flex: 4;
     border-right: 1px solid gray;
+}
+
+#filters{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    gap: 1rem;
+}
+
+.filter{
+    display: flex;
+    padding-right: 1rem;
+}
+
+.filter > label{
+    min-width: 7.5rem;
+    font-size: 1.25rem;
+}
+
+.filter > input{
+    flex: 1;
+}
+
+.filter > select{
+    flex: 1;
+    max-width: 35%;
+}
+
+#filters > button{
+    width: 6.5rem;
+    margin-top: 0.5rem;
 }
 
 #contentCont{
@@ -70,7 +102,7 @@
     flex: 1 1 calc((100% - 3rem) / 4); /* gap compensation: 2 gaps of 1rem */
     max-width: calc((100% - 3rem) / 4);
     font-size: 0.75vw;
-    height: 32vw;
+    max-height: 43.5rem;
     border: 1px solid gray;
     box-sizing: border-box;
     transition: all 0.15s ease-in-out;
@@ -85,8 +117,7 @@
 
 .top{
     flex: 13;
-    max-height: 36rem;
-    height: 36rem;
+    max-height: 35rem;
     border-bottom: 1px solid gray;
 }
 
@@ -99,32 +130,42 @@
 
 .coverImg{
     text-align: center;
-    width: 100% !important;
-    height: 100% !important;
+    width: 100%;
+    max-height: 35rem;
 }
 
 .bottom{
     flex: 2;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .bookTitle{
     text-align: center;
-    font-size: 1.5em;
-    margin-top: 0.25em;
+    font-size: 1.9rem;
+    margin-top: 0.2em;
+}
+
+.authorName{
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 0.5em;
 }
 
 .rating{
+    letter-spacing: 0.1rem;
+    font-size: 1.5rem;
     display: flex;
     justify-content: center;
-    color: rgb(187, 166, 49)
+    color: rgb(187, 166, 49);
 }
 
 .actions{
     display: flex;
     justify-content: center;
     gap: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .edit, .delete{

@@ -33,30 +33,39 @@ db.connect();
 
 let currentUserId = 1;
 
-async function getCover(title){
-	let response;
+async function getBook(title){
 	try{
-		response = await axios.get("https://openlibrary.org/search.json",{
+		const response = await axios.get("https://openlibrary.org/search.json",{
 			params:{
 				q: title,
 			},
 		});
+		const book = response.data.docs?.[0];
+		return book;
 	}catch(error){
 		console.log(error);
+		return 0;
 	}
+}
+
+async function getCover(title){
+	const book = await getBook(title);
+
+	if(book){
+		const cover_olid = book.cover_edition_key;	
+
+		let cover_url = `https://covers.openlibrary.org/b/olid/${cover_olid}-L.jpg`;
 		
-	const bookData = response.data.docs?.[0];
-	const cover_olid = bookData.cover_edition_key;	
-
-	let cover_url = `https://covers.openlibrary.org/b/olid/${cover_olid}-L.jpg`;
-
-	return cover_url;
+		return cover_url;
+	}else{
+		return "Img not found";
+	}
 }
 
 async function getBooks(){
 	let books;
 	try{
-		const response = await db.query("SELECT id, title, rating, cover FROM books WHERE user_id = $1",
+		const response = await db.query("SELECT id, title, rating, cover, author FROM books WHERE user_id = $1",
 		[currentUserId]);
 		books = response.rows;
 	}catch(error){
@@ -99,8 +108,75 @@ function getDate(){
 
 app.get("/", async (req, res) => { 
 	const books = await getBooks();
-	const date = getDate();
 	res.render("index.ejs", {books: books});
+});
+
+app.post("/filter", async (req,res) => {
+	const data = req.body;
+
+	const bookName  = data.book.toLowerCase();
+	const author = data.author.toLowerCase();;
+	const order = parseInt(data.orderBy);
+	const rating = parseInt(data.rating);
+
+	let query = "";
+
+	if(bookName){
+		if(query == ""){
+			query += " WHERE "
+		}else{
+			query += " AND ";
+		}
+		query += "title ILIKE '" + bookName + "%'";
+	}
+
+	if(author){
+		if(query == ""){
+			query += " WHERE "
+		}else{
+			query += " AND ";
+		}
+		query += "author ILIKE '" + author + "%'";
+	}
+
+	if(rating !== 0){
+		if(query == ""){
+			query += " WHERE "
+		}else{
+			query += " AND ";
+		}
+		query += "rating = " + rating;
+	}
+
+	if(query == ""){
+		query += " WHERE user_id = " + currentUserId;
+	}else{
+		query += " AND user_id = " + currentUserId;
+	}
+
+	switch(order){
+		case 1:{ 
+			query += " ORDER BY book_date DESC";
+			break;
+		}
+		case 2:{
+			query += " ORDER BY rating DESC";
+			break;
+		}
+		case 3:{
+			query += " ORDER BY title ASC";
+			break;
+		}
+	}
+
+	try{
+		const response = await db.query(`SELECT id, title, rating, cover, author FROM books ${query}`);
+		const books = response.rows;
+		res.render("index.ejs", {books});
+	}catch(error){
+		console.log(error);
+		res.render("index.ejs", {books: null});
+	}
 });
 
 app.get("/book/:id", async (req,res) =>{
@@ -149,11 +225,17 @@ app.post("/add", async (req,res) => {
 	try{
 		const title = req.body.title;
 		const rating = req.body.rating;
+
+		const book = await getBook(title);
+
+		const author = book.author_name?.[0];
 	
 		let cover_url = await getCover(title);	
 
-		await db.query("INSERT INTO books(title,rating,cover,user_id) VALUES($1,$2,$3,$4)",
-		[title, rating, cover_url, currentUserId]);
+		const date = getDate();
+
+		await db.query("INSERT INTO books(title, rating, cover, user_id, author, book_date) VALUES($1,$2,$3,$4,$5,TO_TIMESTAMP($6,'HH24:MI:SS DD.MM.YYYY'))",
+		[title, rating, cover_url, currentUserId, author, date]);
 
 	}catch(error){
 		console.log(error);
