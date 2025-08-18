@@ -1,0 +1,92 @@
+<%- include("partials/header.ejs") %>
+<link href = "/styles/addBook.css" rel = "stylesheet">
+
+    <div id = "mainCont">
+        <main>
+            <div class = "floatingCont">
+                <div id = "back"><a href = "/">Back</a></div>
+                <form method = "POST">
+                    <div id = "formCont">
+                        <div class = "top">
+                            <div id = "coverImg_form">
+                                <% if(locals.book){ %>
+                                    <img id = "img" class = "coverImg" src = "<%= book.cover %>">
+                                <% }else{ %>
+                                    <img id = "img" class = "coverImg" src = "">
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class = "bottom">
+                            <div id = "formTitle">
+                                <% if(!locals.book){ %>
+                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "47" placeholder = "Title" required></textarea>
+                                <% }else{ %>
+                                    <textarea id = "autoResize" type = "text" name = "title" maxlength = "47" placeholder = "Title" required><%= book.title %></textarea>
+                                <% } %>
+                            </div>
+
+                            <div id = "formRating">
+                                <select id = "ratingSelect" name = "rating">
+                                    <% for (let i = 1; i <= 5; i++) { %>
+                                        <option value="<%= i %>" <%= book && book.rating == i ? "selected" : "" %>> <%= "*".repeat(i) %> </option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <% if(!locals.book){ %>
+                                <button id = "bookConfirm" formaction = "/add" type = "submit">Submit</button>
+                            <% }else{ %>
+                                <button id = "bookConfirm" formaction = "/edit/<%= book.id %>"" type = "submit">Submit</button>
+                            <% } %>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+
+        let timer;
+        const textarea = document.getElementById("autoResize");
+        const img = document.getElementById("img");
+
+        function checkScroll(){
+            textarea.style.height = "2.5rem";
+            if (textarea.scrollHeight > textarea.clientHeight) {
+                textarea.style.height = textarea.scrollHeight + "px";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            checkScroll();
+        });
+
+        textarea.addEventListener("input", async () => {
+            checkScroll();
+
+            const title = textarea.value;
+
+            clearTimeout(timer);
+
+            try{
+                timer = setTimeout(async () => {
+                    const response = await axios.post("/cover", {title: title});
+                    const cover_url = response.data;
+                    if(cover_url === "Img not found"){
+                        img.alt = cover_url;
+                        img.src = "";
+                    }else{
+                        img.alt = "Book cover";
+                        img.src = cover_url;
+                    }
+                },1000); 
+            }catch(error){
+                console.log("error: " + error);
+            }
+        });
+
+    </script>
+    
+
+<%- include("partials/footer.ejs") %>

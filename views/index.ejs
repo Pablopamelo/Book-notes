@@ -1,0 +1,106 @@
+<%- include("partials/header.ejs") %>
+<link href = "/styles/main.css" rel = "stylesheet">
+
+        <div id = "mainCont">
+            <main>
+
+                <div class = "floatingCont">
+
+                    <div id = "filtersCont">
+
+                        <form action = "/filter" method = "POST">
+                            <div id = "filters">
+
+                                <div class = "filter">
+                                    <label for = "searchB">Book name</label>
+                                    <input name = "book" id = "searchA">
+                                </div>
+
+                                <div class = "filter">
+                                    <label for = "searchA">Author name</label>
+                                    <input name = "author" id = "searchA">
+                                </div>
+
+                                <div class = "filter">
+                                    <label for = "orderBy">Order By</label>
+                                    <select id = "orderBy" name = "orderBy">
+                                        <option value = "1" class = "filter" selected>relevancy</option>
+                                        <option value = "2" class = "filter">rating</option>
+                                        <option value = "3" class = "filter">name</option>
+                                    </select>
+                                </div>
+
+                                <div class = "filter">
+                                    <label for = "rating">Rated</label>
+                                    <select id = "rating" name = "rating">
+                                        <option value = "0" class = "filter" selected></option>
+                                        <option value = "1" class = "filter">*</option>
+                                        <option value = "2" class = "filter">**</option>
+                                        <option value = "3" class = "filter">***</option>
+                                        <option value = "4" class = "filter">****</option>
+                                        <option value = "5" class = "filter">*****</option>
+                                    </select>
+                                </div>
+
+                                <button type = "submit">apply</button>
+
+                            </div>
+                        </form>
+
+                    </div>
+
+                    <div id = "contentCont">
+
+                        <form id = "bookForm" method = "POST" action = "/new/0"></form>
+                        
+                        <div id = "books">
+
+                                <div id = "addBook" class = "book">
+                                    <div id = "filler">
+                                        <div id = "plus">+</div>
+                                    </div>
+                                </div>
+
+                            <% if(locals.books){ %>
+                                <% books.forEach((book) => { %>
+                                    <div onclick = "location.href = '/book/<%= book.id %>'" class = "book" id = "book<%= book.id %>">
+
+                                        <div class = "top">
+                                            <div class = "cover" id = "cover<%= book.id %>">
+                                                <img class = "coverImg" src = "<%= book.cover %>">
+                                            </div>
+                                        </div>
+
+                                        <div class = "bottom">
+                                            <div class = "bookTitle"> <%= book.title %></div>
+
+                                            <div class = "authorName"> <%= book.author %> </div>
+
+                                            <div class = "rating">
+                                                <%= "*".repeat(book.rating); %>
+                                            </div>
+
+                                            <form class = "actions" method = "POST">
+                                                <button class = "edit" type = "submit" formaction = "/new/<%= book.id %>" onclick="event.stopPropagation()">E</button>
+
+                                                <button class = "delete" type = "submit" formaction = "/delete/<%= book.id %>" onclick="event.stopPropagation()">X</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            <% } %>
+                        </div>
+
+                    </div>
+                </div>
+                
+            </main>
+        </div>
+
+    <script>
+        document.getElementById('addBook').addEventListener('click', function () {
+            document.getElementById('bookForm').requestSubmit();
+        });
+    </script>
+    
+<%- include("partials/footer.ejs") %>

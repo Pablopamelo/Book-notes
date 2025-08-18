@@ -1,0 +1,26 @@
+#headerCont{
+    flex: 2;
+    border-bottom: 1px solid gray;
+    font-size: 4rem;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a{
+    color: purple;
+    font-style: none;
+    text-decoration: none;
+}
+
+#Container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}

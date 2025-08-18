@@ -1,0 +1,159 @@
+#mainCont{
+    flex: 27;
+    font-size: 1.5rem;
+    overflow-y: scroll;
+}
+
+#back{
+    position: absolute;
+    top: -2rem;
+}
+
+.floatingCont{
+    width: 35%;
+    margin: calc(16.39vh - 4rem) auto 5.95vh auto;
+    display: flex;
+    justify-content: center;
+    border: 1px solid gray;
+}
+
+.left{
+    text-align: center;
+    width: 50%;
+    border-right: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.top{
+    flex: 1;
+    max-height: 37rem;
+}
+
+.book{
+    width: 100%;
+    height: 100%;
+}
+
+.cover{
+    height: 100%;
+    width: 100%;
+}
+
+.coverImg{
+    width: 100%;
+    height: 59vh;
+    max-height: 35rem;
+}
+
+.bottom{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#title{
+    font-size: 1.9rem;
+}
+
+#author{
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#rating{
+    color: rgb(187, 166, 49);
+    letter-spacing: 0.1rem;
+}
+
+.right{
+    width: 50%;
+}
+
+#bookNotes{
+    width: 100%;
+    height: 64vh;
+    overflow-y: scroll;
+}
+
+.note{
+    border: 1px solid gray;
+    width: 100%;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.formCont{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.noteTitle{
+    font-size: 2.2rem;
+    border-bottom: 1px solid gray;
+    padding: 0.1rem;
+    word-wrap: break-word;
+}
+
+.noteContent{
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+    padding: 0.1rem;
+    word-wrap: break-word;
+}
+
+#noteTitleAdd{
+    font-size: 2.2rem;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid gray;
+    padding: 0.1rem;
+    word-wrap: break-word;
+    height: 2.6rem;
+    resize: none;
+}
+
+#noteContentAdd{
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+    border: 0;
+    outline: 0;
+    padding: 0.1rem;
+    word-wrap: break-word;
+    height: 1.75rem;
+    resize: none;
+}
+
+.noteDate{
+    font-size: 1rem;
+    padding: 0.1rem;
+}
+
+button{
+    height: 1.25rem;
+    flex: 1;
+    border: 1px solid gray;
+    border-radius: 0.25rem;
+    outline: 0;
+}
+
+.buttons{
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.noteEdit{
+    background-color: green;
+}
+
+.sumbitNoteEdit{
+    background-color: greenyellow;
+}
+
+.noteDelete{
+    background-color: red;
+}
