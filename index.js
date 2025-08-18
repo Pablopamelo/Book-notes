@@ -111,6 +111,74 @@ app.get("/", async (req, res) => {
 	res.render("index.ejs", {books: books});
 });
 
+app.post("/filter", async (req,res) => {
+	const data = req.body;
+
+	const bookName  = data.book.toLowerCase();
+	const author = data.author.toLowerCase();;
+	const order = parseInt(data.orderBy);
+	const rating = parseInt(data.rating);
+
+	let query = "";
+
+	if(bookName){
+		if(query == ""){
+			query += " WHERE "
+		}else{
+			query += " AND ";
+		}
+		query += "title ILIKE '" + bookName + "%'";
+	}
+
+	if(author){
+		if(query == ""){
+			query += " WHERE "
+		}else{
+			query += " AND ";
+		}
+		query += "author ILIKE '" + author + "%'";
+	}
+
+	if(rating !== 0){
+		if(query == ""){
+			query += " WHERE "
+		}else{
+			query += " AND ";
+		}
+		query += "rating = " + rating;
+	}
+
+	if(query == ""){
+		query += " WHERE user_id = " + currentUserId;
+	}else{
+		query += " AND user_id = " + currentUserId;
+	}
+
+	switch(order){
+		case 1:{ 
+			query += " ORDER BY book_date DESC";
+			break;
+		}
+		case 2:{
+			query += " ORDER BY rating DESC";
+			break;
+		}
+		case 3:{
+			query += " ORDER BY title ASC";
+			break;
+		}
+	}
+
+	try{
+		const response = await db.query(`SELECT id, title, rating, cover, author FROM books ${query}`);
+		const books = response.rows;
+		res.render("index.ejs", {books});
+	}catch(error){
+		console.log(error);
+		res.render("index.ejs", {books: null});
+	}
+});
+
 app.get("/book/:id", async (req,res) =>{
 	const id = parseInt(req.params.id);
 
@@ -164,8 +232,10 @@ app.post("/add", async (req,res) => {
 	
 		let cover_url = await getCover(title);	
 
-		await db.query("INSERT INTO books(title, rating, cover, user_id, author) VALUES($1,$2,$3,$4,$5)",
-		[title, rating, cover_url, currentUserId, author]);
+		const date = getDate();
+
+		await db.query("INSERT INTO books(title, rating, cover, user_id, author, book_date) VALUES($1,$2,$3,$4,$5,TO_TIMESTAMP($6,'HH24:MI:SS DD.MM.YYYY'))",
+		[title, rating, cover_url, currentUserId, author, date]);
 
 	}catch(error){
 		console.log(error);

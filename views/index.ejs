@@ -8,41 +8,44 @@
 
                     <div id = "filtersCont">
 
-                        <div id = "filters">
+                        <form action = "/filter" method = "POST">
+                            <div id = "filters">
 
-                            <div class = "filter">
-                                <label for = "searchB">Book name</label>
-                                <input id = "searchA">
+                                <div class = "filter">
+                                    <label for = "searchB">Book name</label>
+                                    <input name = "book" id = "searchA">
+                                </div>
+
+                                <div class = "filter">
+                                    <label for = "searchA">Author name</label>
+                                    <input name = "author" id = "searchA">
+                                </div>
+
+                                <div class = "filter">
+                                    <label for = "orderBy">Order By</label>
+                                    <select id = "orderBy" name = "orderBy">
+                                        <option value = "1" class = "filter" selected>relevancy</option>
+                                        <option value = "2" class = "filter">rating</option>
+                                        <option value = "3" class = "filter">name</option>
+                                    </select>
+                                </div>
+
+                                <div class = "filter">
+                                    <label for = "rating">Rated</label>
+                                    <select id = "rating" name = "rating">
+                                        <option value = "0" class = "filter" selected></option>
+                                        <option value = "1" class = "filter">*</option>
+                                        <option value = "2" class = "filter">**</option>
+                                        <option value = "3" class = "filter">***</option>
+                                        <option value = "4" class = "filter">****</option>
+                                        <option value = "5" class = "filter">*****</option>
+                                    </select>
+                                </div>
+
+                                <button type = "submit">apply</button>
+
                             </div>
-
-                            <div class = "filter">
-                                <label for = "searchA">Author name</label>
-                                <input id = "searchA">
-                            </div>
-
-                            <div class = "filter">
-                                <label for = "orderBy">Order By</label>
-                                <select id = "orderBy">
-                                    <option value = "1" class = "filter" selected>relevancy</option>
-                                    <option value = "2" class = "filter">rating</option>
-                                    <option value = "3" class = "filter">name</option>
-                                </select>
-                            </div>
-
-                            <div class = "filter">
-                                <label for = "rating">Rated</label>
-                                <select id = "rating">
-                                    <option value = "0" class = "filter" selected></option>
-                                    <option value = "1" class = "filter">*</option>
-                                    <option value = "2" class = "filter">**</option>
-                                    <option value = "3" class = "filter">***</option>
-                                    <option value = "4" class = "filter">****</option>
-                                    <option value = "5" class = "filter">*****</option>
-                                </select>
-                            </div>
-
-                            <button type = "submit">apply</button>
-                        </div>
+                        </form>
 
                     </div>
 
