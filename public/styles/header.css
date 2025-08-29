@@ -1,4 +1,4 @@
-#headerCont{
+header{
     flex: 2;
     border-bottom: 1px solid gray;
     font-size: 4rem;
@@ -9,15 +9,9 @@
 }
 
 a{
-    color: purple;
+    color: rgb(0, 0, 0);
     font-style: none;
     text-decoration: none;
-}
-
-#Container{
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 body{

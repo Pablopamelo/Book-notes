@@ -1,11 +1,12 @@
-#mainCont{
+main{
     flex: 27;
     font-size: 1.5rem;
     overflow-y: scroll;
+    height: 100%;
 }
 
 .floatingCont{
-    height: calc(100vh - 13rem);
+    height: 100%;
     margin: 1.5rem;
     display: flex;
 }

@@ -1,6 +1,8 @@
-#mainCont{
+main{
     flex: 27;
+    font-size: 1.5rem;
     overflow-y: scroll;
+    height: 56rem;
 }
 
 #back{
@@ -11,9 +13,10 @@
 
 .floatingCont{
     position: relative;
+    height: 100%;
     width: 18%;
     height: 40rem;
-    margin: calc(10.39vh - 3rem) auto;
+    margin: 5rem auto;
     margin-bottom: 3.5rem;
 }
 
@@ -37,7 +40,7 @@
 
 .coverImg{
     width: 100%;
-    height: 60vh;
+    height: 40rem;
     max-height: 36.5rem;
     text-align: center;
 }

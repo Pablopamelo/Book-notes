@@ -1,7 +1,6 @@
 <%- include("partials/header.ejs") %>
 <link href = "/styles/main.css" rel = "stylesheet">
 
-        <div id = "mainCont">
             <main>
 
                 <div class = "floatingCont">
@@ -13,7 +12,7 @@
 
                                 <div class = "filter">
                                     <label for = "searchB">Book name</label>
-                                    <input name = "book" id = "searchA">
+                                    <input name = "book" id = "searchB">
                                 </div>
 
                                 <div class = "filter">
@@ -67,7 +66,7 @@
 
                                         <div class = "top">
                                             <div class = "cover" id = "cover<%= book.id %>">
-                                                <img class = "coverImg" src = "<%= book.cover %>">
+                                                <img class = "coverImg" src = "<%= book.cover %>" alt = "Book cover of<% book.title %>">
                                             </div>
                                         </div>
 
@@ -95,7 +94,6 @@
                 </div>
                 
             </main>
-        </div>
 
     <script>
         document.getElementById('addBook').addEventListener('click', function () {
