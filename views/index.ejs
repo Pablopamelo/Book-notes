@@ -66,15 +66,27 @@
 
                                         <div class = "top">
                                             <div class = "cover" id = "cover<%= book.id %>">
-                                                <img class = "coverImg" src = "<%= book.cover %>" alt = "Book cover of<% book.title %>">
+                                                <img class = "coverImg" src = "<%= book.cover %>" alt = "Book cover of <%= book.title %>">
                                             </div>
                                         </div>
 
                                         <div class = "bottom">
-                                            <div class = "bookTitle"> <%= book.title %></div>
+                                            <div class = "bookTitle">
+                                                <% if(book.title){ %>
+                                                    <%= book.title %>
+                                                <% }else{  %>
+                                                    Unknown
+                                                <% } %>
+                                            </div>
 
-                                            <div class = "authorName"> <%= book.author %> </div>
-
+                                            <div class = "authorName">
+                                                <% if(book.author){ %>
+                                                    <%= book.author %>
+                                                <% }else{  %>
+                                                    Unknown
+                                                <% } %>
+                                            </div>
+                        
                                             <div class = "rating">
                                                 <%= "*".repeat(book.rating); %>
                                             </div>
